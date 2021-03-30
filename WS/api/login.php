@@ -14,7 +14,9 @@ $app->post('/api/login', function ($request, $response, array $args) {
         if($data){
             echo json_encode($data,JSON_UNESCAPED_UNICODE);
         }else{
-            echo json_encode("Login Fail",JSON_UNESCAPED_UNICODE);
-        }
+            $myObj = new \stdClass();
+            $myObj->userid = "-1";
+            $myObj->name = " ";
+            echo json_encode($myObj,JSON_UNESCAPED_UNICODE);
 });
 ?>
