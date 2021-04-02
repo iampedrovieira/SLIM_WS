@@ -6,7 +6,7 @@ require __DIR__ . '/vendor/autoload.php';
 
 $app = new \Slim\App();
 require_once('api/login.php');
-
+require_once('api/occurrences.php');
 
 $app->run();
 ?>
