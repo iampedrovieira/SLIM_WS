@@ -9,4 +9,34 @@ $app->get('/api/alloccurrences', function ($request, $response, array $args) {
         };
         echo json_encode($data,JSON_UNESCAPED_UNICODE);
 });
+
+$app->post('/api/create-occurrences', function ($request, $response, array $args) {
+    require_once('db/dbconnect.php');
+
+    $description =  $_POST["description"];
+    $userid =  $_POST["userid"];
+    $typeid= $_POST["typeid"];
+ 
+    $lat = $_POST["lat"];
+    $lng = $_POST["lng"];
+    $data = array(
+        "description"=>$description,
+        "userid"=>$userid,
+        "typeid"=>$typeid,
+        "date_"=>date("y-m-d H:i"),
+        "lat"=>$lat,
+        "lng"=>$lng,
+
+    );
+    $occurrence = $db->occurrence();
+
+    $result = $occurrence->insert($data);
+    if ($result == false){
+        $result=['status'=>false,'MSG'=>"Inserção falhou"];
+        echo json_encode($result,JSON_UNESCAPED_UNICODE);
+    }else{
+        $result=['status'=>true,'MSG'=>"Sucesso"];
+        echo json_encode($result,JSON_UNESCAPED_UNICODE);
+    }
+});
 ?>
