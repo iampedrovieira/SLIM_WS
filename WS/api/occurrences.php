@@ -15,8 +15,8 @@ $app->post('/api/create-occurrences', function ($request, $response, array $args
 
     $description =  $_POST["description"];
     $userid =  $_POST["userid"];
-    $typeid= $_POST["typeid"];
- 
+    $typeid = $_POST["typeid"];
+    $photo=$_REQUEST['image'];
     $lat = $_POST["lat"];
     $lng = $_POST["lng"];
     $data = array(
@@ -35,8 +35,14 @@ $app->post('/api/create-occurrences', function ($request, $response, array $args
         $result=['status'=>false,'MSG'=>"Inserção falhou"];
         echo json_encode($result,JSON_UNESCAPED_UNICODE);
     }else{
-        $result=['status'=>true,'MSG'=>"Sucesso"];
-        echo json_encode($result,JSON_UNESCAPED_UNICODE);
+        $binary=base64_decode($photo);
+        header('Content-Type: bitmap; charset=utf-8');
+        $name=strval($result).".png";
+        $file = fopen("api/img/".$name, 'wb');
+        fwrite($file, $binary);
+        fclose($file);
+        $resulta=['status'=>true,'MSG'=>"Sucesso"];
+        echo json_encode($resulta,JSON_UNESCAPED_UNICODE);
     }
 });
 ?>
