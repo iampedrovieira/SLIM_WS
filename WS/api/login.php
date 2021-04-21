@@ -6,7 +6,7 @@ $app->post('/api/login', function ($request, $response, array $args) {
     $pass = $_POST["pass"];
     $data=null;
     foreach($db->users()
-        ->select('userid','name')
+        ->select('id','name')
         ->where('username',$username)->where('password',$pass)
         as $row){
             $data[]=$row;
