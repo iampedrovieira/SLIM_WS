@@ -10,6 +10,27 @@ $app->get('/api/alloccurrences', function ($request, $response, array $args) {
         echo json_encode($data,JSON_UNESCAPED_UNICODE);
 });
 
+$app->post('/api/delete-occurrence/{id}', function ($request, $response, array $args) {
+    require_once('db/dbconnect.php');
+    $id = $request->getAttribute('id');
+    $occurrence = $db->occurrence[$id];
+    if ($occurrence){
+        $result=$occurrence->delete();
+        if($result){
+            $result=['status'=>false,'MSG'=>"Sucesso"];
+            echo json_encode($result,JSON_UNESCAPED_UNICODE);
+        }else{
+            $result=['status'=>false,'MSG'=>"Remoção falhou"];
+            echo json_encode($result,JSON_UNESCAPED_UNICODE);
+        }
+       
+    }else{
+        $result=['status'=>false,'MSG'=>"Remoção falhou"];
+            echo json_encode($result,JSON_UNESCAPED_UNICODE);
+    }
+
+});
+
 $app->post('/api/create-occurrences', function ($request, $response, array $args) {
     require_once('db/dbconnect.php');
 
